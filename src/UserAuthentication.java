@@ -7,7 +7,8 @@ public class UserAuthentication {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<User> users = readUsersFromFile(); //Creamos una lista con objetos User donde guardaremos todos los usuarios del txt (esto llamado al metodo readUsersFromFile)
+      //Creamos una lista con objetos User donde guardaremos todos los usuarios del txt             (esto llamado al metodo readUsersFromFile)
+        List<User> users = readUsersFromFile(); 
 
         System.out.println("Bienvenido a la app de Booking");
         while (true) {
@@ -26,6 +27,7 @@ public class UserAuthentication {
                     break;
                 case 2:
                     loginUser(scanner, users);
+                    handleHelp();
                     break;
                 case 3:
                     System.out.println("Hasta luego!");
@@ -93,6 +95,56 @@ public class UserAuthentication {
             System.out.println("Usuario o contraseña incorrecto, intentalo de nuevo");
         }
     }
+
+  private static void handleHelp() {
+      System.out.println("¿En qué puedo ayudarte?");
+      System.out.println("Selecciona una opción de ayuda:");
+
+      // Crear un mapa de problemas comunes y soluciones asociadas
+      Map<Integer, Runnable> helpOptions = new HashMap<>();
+      helpOptions.put(1, () -> System.out.println("Si has perdido tu vuelo, te recomendamos que te pongas en contacto con la aerolínea lo antes posible para ver si es posible reprogramar tu vuelo o solicitar un reembolso según sus políticas."));
+      helpOptions.put(2, () -> System.out.println("Si has cancelado tu viaje, primero verifica las políticas de cancelación de tu reserva. Dependiendo de las políticas, es posible que puedas recibir un reembolso o un crédito para usar en futuras reservas. Además, ponte en contacto con el servicio de atención al cliente para obtener ayuda adicional."));
+      helpOptions.put(3, () -> System.out.println("Si necesitas cambiar tus fechas de viaje, te recomendamos que revises las políticas de cambio de tu reserva. Muchas veces, puedes realizar cambios en tus fechas de viaje sujeto a disponibilidad y cargos adicionales, si corresponde."));
+      helpOptions.put(4, () -> System.out.println("Si tienes problemas con el pago de tu reserva, asegúrate de que la información de tu tarjeta de crédito sea correcta y que tengas fondos suficientes disponibles. Si el problema persiste, ponte en contacto con tu institución financiera o el servicio de atención al cliente de la plataforma de reservas."));
+      helpOptions.put(5, () -> System.out.println("Si necesitas asistencia especial, como accesibilidad para discapacitados o alimentos especiales durante el vuelo, te recomendamos que lo indiques al realizar la reserva o que te pongas en contacto con la aerolínea con anticipación."));
+      helpOptions.put(6, () -> System.out.println("Si tienes alguna pregunta sobre la política de equipaje, te recomendamos que consultes las políticas de equipaje de la aerolínea en su sitio web o te pongas en contacto con la aerolínea directamente para obtener información actualizada."));
+      helpOptions.put(7, () -> System.out.println("Si necesitas ayuda con el check-in en línea o el proceso de embarque, consulta las instrucciones proporcionadas por la aerolínea en su sitio web o en tu correo electrónico de confirmación de reserva. Si aún necesitas ayuda, ponte en contacto con la aerolínea."));
+
+      // Mostrar las opciones de ayuda
+      helpOptions.forEach((key, value) -> System.out.println(key + ". " + getOptionName(key)));
+
+      Scanner scanner = new Scanner(System.in);
+      int choice = scanner.nextInt();
+
+      // Ejecutar la acción asociada con la opción seleccionada
+      Runnable selectedAction = helpOptions.get(choice);
+      if (selectedAction != null) {
+          selectedAction.run();
+      } else {
+          System.out.println("Opción de ayuda no válida.");
+      }
+  }
+
+  private static String getOptionName(int option) {
+      switch (option) {
+          case 1:
+              return "Perdiste tu vuelo";
+          case 2:
+              return "Cancelé mi viaje";
+          case 3:
+              return "Necesito cambiar mis fechas de viaje";
+          case 4:
+              return "Problemas con el pago";
+          case 5:
+              return "Necesito asistencia especial";
+          case 6:
+              return "Preguntas sobre la política de equipaje";
+          case 7:
+              return "Ayuda con el check-in y el embarque";
+          default:
+              return "Opción no válida";
+      }
+  }
 
     static class User {
         private final String username;
